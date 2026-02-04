@@ -1,0 +1,27 @@
+# Backend Secrets & Environments
+backend/.env
+backend/venv/
+backend/__pycache__/
+backend/*.py[cod]
+backend/.pytest_cache/
+
+# Frontend Secrets & Build
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/node_modules/
+frontend/.next/
+frontend/dist/
+
+# Application Data
+*.pdf
+*.docx
+
+# OS & IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+backend/debug_pdf.py

@@ -102,7 +102,20 @@ The frontend is optimized for Netlify.
     - **Build command**: `npm run build`
     - **Publish directory**: `frontend/.next`
 - **Environment Variables**:
-    - `NEXT_PUBLIC_API_URL`: The full URL of your **deployed backend** (e.g., `https://your-backend.onrender.com`).
+    - `NEXT_PUBLIC_API_URL`: The full URL of your **deployed backend** (e.g., `https://skillzsprint.onrender.com`).
+
+## 🛡️ Security & Secret Management
+
+Protecting your API keys is critical. This project is configured with the following security measures:
+
+- **Environment Isolation**: All sensitive keys (like `GEMINI_API_KEY`) are stored in `.env` or `.env.local` files, which are explicitly ignored by Git.
+- **Production Secrets**: When deploying to **Render** or **Netlify**, never upload your `.env` files. Instead, add your keys directly through the platform's dashboard:
+    - **Netlify**: *Site Settings > Environment Variables*
+    - **Render**: *Dashboard > Your Service > Environment*
+- **Docker Security**: The `.dockerignore` file ensures that local secrets are not bundled into your production container.
+
+> [!CAUTION]
+> If you accidentally commit an API key to a public repository, rotate it immediately in the Google AI Dashboard.
 
 ## 📄 License
 © 2026 AI Resume Intelligence. All rights reserved.
