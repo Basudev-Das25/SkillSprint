@@ -3,13 +3,8 @@ from sentence_transformers import SentenceTransformer, util
 import numpy as np
 
 # Load Spacy model
-try:
-    nlp = spacy.load("en_core_web_sm")
-except:
-    # If not found, we'll need to download it
-    import os
-    os.system("python -m spacy download en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+# Note: We ensure en_core_web_sm is pre-downloaded in the build step
+nlp = spacy.load("en_core_web_sm")
 
 # Load SBERT model for embeddings (good for similarity)
 model = SentenceTransformer('all-MiniLM-L6-v2')

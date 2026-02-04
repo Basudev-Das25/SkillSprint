@@ -80,10 +80,10 @@ This project is split into a **Frontend (Next.js)** and a **Backend (FastAPI)**.
 ### 1. Backend Deployment (Render / Railway / Docker)
 Since the backend is a Python FastAPI server, it needs a host that supports long-running processes.
 
-#### **Option A: Standard Deployment**
+#### **Option A: Standard Deployment (Render Native)**
 - **Service**: [Render](https://render.com/) or [Railway](https://railway.app/) are recommended.
-- **Build Command**: `pip install -r requirements.txt`
-- **Start Command**: `python app/main.py` (or `uvicorn app.main:app --host 0.0.0.0 --port $PORT`)
+- **Build Command**: `pip install -r requirements.txt && python -m spacy download en_core_web_sm && python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"`
+- **Start Command**: `PYTHONPATH=. uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 
 #### **Option B: Docker Deployment**
 If you prefer containerization:
