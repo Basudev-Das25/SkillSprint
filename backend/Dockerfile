@@ -19,7 +19,7 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 COPY . .
 
 ENV GEMINI_API_KEY=${GEMINI_API_KEY}
-ENV PYTHONPATH=/app/app
+ENV PYTHONPATH=/app
 
 EXPOSE 8000
 

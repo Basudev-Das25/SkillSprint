@@ -4,9 +4,9 @@ import uvicorn
 import os
 import json
 from dotenv import load_dotenv
-from services.parser import parse_resume
-from services.nlp_engine import extract_skills, calculate_similarity, analyze_gap
-from services.gemini_service import generate_roadmap, get_recruiter_feedback, ocr_resume
+from app.services.parser import parse_resume
+from app.services.nlp_engine import extract_skills, calculate_similarity, analyze_gap
+from app.services.gemini_service import generate_roadmap, get_recruiter_feedback, ocr_resume
 
 load_dotenv()
 
