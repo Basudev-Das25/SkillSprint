@@ -13,9 +13,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Pre-download spaCy model to avoid runtime issues
 RUN python -m spacy download en_core_web_sm
 
+# Pre-download SBERT model to avoid timeout on first run (Render/Railway)
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+
 COPY . .
 
 ENV GEMINI_API_KEY=${GEMINI_API_KEY}
+ENV PYTHONPATH=/app/app
 
 EXPOSE 8000
 
