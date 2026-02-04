@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.pytest_cache/
+.vscode/
+.git/
+.gitignore
+*.pdf
+debug_pdf.py

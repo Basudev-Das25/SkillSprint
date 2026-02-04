@@ -73,5 +73,36 @@ A powerful AI-driven platform that bridge the gap between your resume and your d
    ```
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## 🚀 Deployment Guide
+
+This project is split into a **Frontend (Next.js)** and a **Backend (FastAPI)**.
+
+### 1. Backend Deployment (Render / Railway / Docker)
+Since the backend is a Python FastAPI server, it needs a host that supports long-running processes.
+
+#### **Option A: Standard Deployment**
+- **Service**: [Render](https://render.com/) or [Railway](https://railway.app/) are recommended.
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `python app/main.py` (or `uvicorn app.main:app --host 0.0.0.0 --port $PORT`)
+
+#### **Option B: Docker Deployment**
+If you prefer containerization:
+- **Build**: `docker build -t resume-backend ./backend`
+- **Run**: `docker run -p 8000:8000 -e GEMINI_API_KEY=your_key resume-backend`
+- The Dockerfile is optimized to use the `$PORT` environment variable assigned by your cloud provider.
+- **Environment Variables**:
+    - `GEMINI_API_KEY`: Your Google AI API Key.
+    - `PORT`: Usually set automatically by the host.
+
+### 2. Frontend Deployment (Netlify)
+The frontend is optimized for Netlify.
+- **Link your repository** to Netlify.
+- **Build Settings**:
+    - **Base directory**: `frontend`
+    - **Build command**: `npm run build`
+    - **Publish directory**: `frontend/.next`
+- **Environment Variables**:
+    - `NEXT_PUBLIC_API_URL`: The full URL of your **deployed backend** (e.g., `https://your-backend.onrender.com`).
+
 ## 📄 License
 © 2026 AI Resume Intelligence. All rights reserved.

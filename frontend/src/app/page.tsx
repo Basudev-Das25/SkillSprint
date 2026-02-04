@@ -109,8 +109,10 @@ export default function Home() {
     formData.append("resume", file);
     formData.append("job_description", jd);
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
     try {
-      const response = await fetch("http://localhost:8000/analyze", {
+      const response = await fetch(`${apiUrl}/analyze`, {
         method: "POST",
         body: formData,
       });

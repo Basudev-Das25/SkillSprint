@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 from services.parser import parse_resume
 from services.nlp_engine import extract_skills, calculate_similarity, analyze_gap
-from services.gemini_service import generate_roadmap, get_recruiter_feedback
+from services.gemini_service import generate_roadmap, get_recruiter_feedback, ocr_resume
 
 load_dotenv()
 
@@ -38,10 +38,14 @@ async def analyze_resume(
         
         print(f"DEBUG: Extracted text length: {len(resume_text)}")
         if len(resume_text.strip()) < 50:
-            print(f"DEBUG: Extracted text preview: '{resume_text[:100]}...'")
-            # If text is very short or empty, we have a problem
-            if len(resume_text.strip()) == 0:
-                raise HTTPException(status_code=400, detail="Could not extract text from the PDF. It might be a scanned image or corrupted.")
+            print(f"DEBUG: Text too short or empty, starting OCR fallback...")
+            try:
+                resume_text = await ocr_resume(resume_content, resume.filename)
+                print(f"DEBUG: OCR successful, new length: {len(resume_text)}")
+            except Exception as ocr_err:
+                print(f"DEBUG: OCR fallback failed: {ocr_err}")
+                if len(resume_text.strip()) == 0:
+                    raise HTTPException(status_code=400, detail="Could not extract text from the PDF. It might be a scanned image or corrupted.")
 
         if "Unsupported" in resume_text:
             raise HTTPException(status_code=400, detail=resume_text)

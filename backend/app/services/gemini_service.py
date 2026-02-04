@@ -54,3 +54,25 @@ async def get_recruiter_feedback(resume_text: str, jd_text: str):
     
     response = await model.generate_content_async(prompt)
     return response.text
+
+async def ocr_resume(file_content: bytes, filename: str):
+    """Fallback OCR using Gemini's vision/multimodal capabilities."""
+    prompt = """
+    This is a resume provided as a document. 
+    Please extract all the text from this document as accurately as possible. 
+    Maintain the structure (headings, bullets, experience) where possible.
+    Output only the transcribed text.
+    """
+    
+    mime_type = "application/pdf" if filename.lower().endswith(".pdf") else "image/jpeg"
+    
+    content_parts = [
+        prompt,
+        {
+            "mime_type": mime_type,
+            "data": file_content
+        }
+    ]
+    
+    response = await model.generate_content_async(content_parts)
+    return response.text
