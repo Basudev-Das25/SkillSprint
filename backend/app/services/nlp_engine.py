@@ -1,13 +1,26 @@
-import spacy
-from sentence_transformers import SentenceTransformer, util
 import numpy as np
 
-# Load Spacy model
-# Note: We ensure en_core_web_sm is pre-downloaded in the build step
-nlp = spacy.load("en_core_web_sm")
+# Lazy loading for models to ensure fast startup on Render
+_nlp = None
+_sbert_model = None
 
-# Load SBERT model for embeddings (good for similarity)
-model = SentenceTransformer('all-MiniLM-L6-v2')
+def get_nlp():
+    global _nlp
+    if _nlp is None:
+        import spacy
+        _nlp = spacy.load("en_core_web_sm")
+    return _nlp
+
+def get_sbert_model():
+    global _sbert_model
+    if _sbert_model is None:
+        from sentence_transformers import SentenceTransformer
+        _sbert_model = SentenceTransformer('all-MiniLM-L6-v2')
+    return _sbert_model
+
+def get_util():
+    from sentence_transformers import util
+    return util
 
 # Common technical skills for AI/ML and Web Dev (Expandable)
 SKILLS_DB = [
@@ -30,6 +43,7 @@ def extract_skills(text: str):
             found_skills.append(skill)
             
     # 2. Add SpaCy NER as fallback for unknown entities
+    nlp = get_nlp()
     doc = nlp(text)
     potential_skills = [ent.text.lower() for ent in doc.ents if ent.label_ in ["ORG", "PRODUCT"]]
     found_skills.extend(potential_skills)
@@ -38,6 +52,8 @@ def extract_skills(text: str):
 
 def calculate_similarity(resume_text: str, jd_text: str):
     """Calculate cosine similarity between resume and JD."""
+    model = get_sbert_model()
+    util = get_util()
     resume_embedding = model.encode(resume_text, convert_to_tensor=True)
     jd_embedding = model.encode(jd_text, convert_to_tensor=True)
     
